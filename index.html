@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Frontend Mentor | Job Listings">
+
+  <title>Frontend Mentor | Job Listings</title>
+
+  <link rel="icon" type="image/png" sizes="32x32" href="./images/favicon-32x32.png">
+  <link rel="stylesheet" href="style.css">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=League+Spartan:wght@100..900&display=swap" rel="stylesheet">
+</head>
+
+<body>
+  <header class="filter-bar">
+    <div class="filter-wrapper">
+      <ul class="filter-tags">
+        <li class="filter-tag">
+          <p>Frontend</p>
+          <button type="reset" aria-label="Remove Frontend filter">X</button>
+        </li>
+
+        <li class="filter-tag">
+          <p>CSS</p>
+          <button type="reset" aria-label="Remove CSS filter">X</button>
+        </li>
+
+        <li class="filter-tag">
+          <p>JavaScript</p>
+          <button type="reset" aria-label="Remove JavaScript filter">X</button>
+        </li>
+      </ul>
+
+      <button class="clear-filters" type="reset" aria-label="Clear filters">Clear</button>
+    </div>
+  </header>
+
+  <main class="job-listings">
+    <div class="job-listings-container">
+      <article class="job-card">
+        <img src="images/photosnap.svg" alt="Photosnap company logo" class="company-logo" draggable="false">
+
+        <div class="job-content">
+          <div class="job-header">
+            <h3 class="company-name">Photosnap</h3>
+            <span class="badge new">New!</span>
+            <span class="badge featured">Featured</span>
+          </div>
+
+          <h2 class="job-title">Senior Frontend Developer</h2>
+
+          <p class="job-meta">1d ago · Full Time · USA only</p>
+        </div>
+
+        <ul class="job-tags">
+          <li class="tag-role"><button>Frontend</button></li>
+          <li class="tag-level"><button>Senior</button></li>
+          <li class="tag-language"><button>HTML</button></li>
+          <li class="tag-language"><button>CSS</button></li>
+          <li class="tag-language"><button>JavaScript</button></li>
+        </ul>
+      </article>
+
+      <article class="job-card">
+        <img src="images/myhome.svg" alt="MyHome company logo" class="company-logo" draggable="false">
+
+        <div class="job-content">
+          <div class="job-header">
+            <h3 class="company-name">Manage</h3>
+            <span class="badge new">New!</span>
+            <span class="badge featured">Featured</span>
+          </div>
+
+          <h2 class="job-title">Fullstack Developer</h2>
+
+          <p class="job-meta">1d ago · Full Time · USA only</p>
+        </div>
+
+        <ul class="job-tags">
+          <li class="tag-role"><button>Fullstack</button></li>
+          <li class="tag-level"><button>Midweight</button></li>
+          <li class="tag-language"><button>Python</button></li>
+          <li class="tag-language"><button>React</button></li>
+          <li class="tag-language"><button>JavaScript</button></li>
+        </ul>
+      </article>
+    </div>
+  </main>
+
+  <footer>
+    <div class="footer-container">
+      <p>
+        Challenge by <a href="https://www.frontendmentor.io?ref=challenge" target="_blank">Frontend Mentor</a>.
+        Coded by <a href="https://github.com/arisdwii" target="_blank">arisdwii</a>.
+      </p>
+    </div>
+  </footer>
+</body>
+
+</html>

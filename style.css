@@ -1,0 +1,43 @@
+:root {
+  /* Primary */
+  --primary-desaturated-dark-cyan: hsl(180, 29%, 50%);
+
+  /* Neutral */
+  --neutral-bg-light-grayish-cyan: hsl(180, 52%, 96%);
+  --neutral-filter-light-grayish-cyan: hsl(180, 31%, 95%);
+  --neutral-dark-grayish-cyan: hsl(180, 8%, 52%);
+  --neutral-very-dark-grayish-cyan: hsl(180, 14%, 20%);
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "League Spartan", sans-serif;
+}
+
+ul {
+  list-style-type: none;
+}
+
+body {
+  width: 100%;
+  min-height: 100dvh;
+  background-color: var(--neutral-bg-light-grayish-cyan);
+  color: var(--neutral-dark-grayish-cyan);
+  font-size: 0.875rem;
+  font-weight: 500;
+  display: flex;
+  flex-direction: column;
+}
+
+.filter-bar {
+  width: 90%;
+  max-width: 1120px;
+  background-color: white;
+  margin: auto;
+}
+
+main {
+  flex: 1;
+}
