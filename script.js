@@ -6,97 +6,94 @@ const clearFilterBtn = document.querySelector(".clear-filter");
 let jobData = [];
 let activeFilters = [];
 
+// === Fetch Data ===
 async function getJobArticle() {
   try {
     const res = await fetch("data.json");
-    const data = await res.json();
-    jobData = data;
+    jobData = await res.json();
 
-    renderJobCard(data);
+    renderJobCards();
   } catch (error) {
-    console.log(error);
+    console.error("Failed to fetch jobs:", error);
   }
 }
 
-function renderJobCard(data) {
-  const filteredData = activeFilters.length
-    ? data.filter((item) => {
-        const tags = [
-          item.role,
-          item.level,
-          ...(item.languages || []),
-          ...(item.tools || []),
-        ];
+// === Render All Job Cards ===
+function renderJobCards() {
+  const jobsToRender = getFilteredJobs(jobData);
+  jobListingsContainer.innerHTML = jobsToRender
+    .map(generateJobCardHTML)
+    .join("");
 
-        return activeFilters.every((filter) => tags.includes(filter));
-      })
-    : data;
-
-  const cardHTML = filteredData.map((item) => {
-    const tags = [
-      item.role,
-      item.level,
-      ...(item.languages || []),
-      ...(item.tools || []),
-    ];
-
-    const tagsHTML = tags
-      .map(
-        (tag) =>
-          `<li><button class="tag-btn" data-tag="${tag}">${tag}</button></li>`
-      )
-      .join("");
-
-    return `
-    <article class="job-card ${item.featured ? "featured" : ""}">
-        <img 
-            src="${item.logo}" 
-            alt="${item.company} company logo" 
-            class="company-logo" draggable="false">
-
-        <div class="job-wrapper">
-          <div class="job-content">
-            <div class="job-header">
-              <h3 class="company-name">${item.company}</h3>
-              ${item.new ? '<span class="badge new">New!</span>' : ""}
-              ${
-                item.featured
-                  ? '<span class="badge featured">Featured</span>'
-                  : ""
-              }
-            </div>
-
-            <a href="" class="job-title">${item.position}</a>
-
-            <p class="job-meta">${item.postedAt} · ${item.contract} · ${
-      item.location
-    }</p>
-          </div>
-
-          <ul class="job-tags">${tagsHTML}</ul>
-        </div>
-    </article>`;
-  });
-
-  jobListingsContainer.innerHTML = cardHTML.join("");
-  addTagClickListeners();
-  renderFilterBar();
+  attachTagListeners();
+  updateFilterBar();
 }
 
-function addTagClickListeners() {
+// === Filter Logic ===
+function getFilteredJobs(data) {
+  if (!activeFilters.length) return data;
+
+  return data.filter((job) => {
+    const tags = collectTags(job);
+    return activeFilters.every((filter) => tags.includes(filter));
+  });
+}
+
+// === Create Job Card HTML ===
+function generateJobCardHTML(job) {
+  const tags = collectTags(job);
+  const tagsHTML = tags
+    .map(
+      (tag) =>
+        `<li><button class="tag-btn" data-tag="${tag}">${tag}</button></li>`
+    )
+    .join("");
+
+  return `
+    <article class="job-card ${job.featured ? "featured" : ""}">
+      <img src="${job.logo}" alt="${
+    job.company
+  } logo" class="company-logo" draggable="false" />
+      <div class="job-wrapper">
+        <div class="job-content">
+          <div class="job-header">
+            <h3 class="company-name">${job.company}</h3>
+            ${job.new ? `<span class="badge new">New!</span>` : ""}
+            ${
+              job.featured ? `<span class="badge featured">Featured</span>` : ""
+            }
+          </div>
+          <a href="#" class="job-title">${job.position}</a>
+          <p class="job-meta">${job.postedAt} · ${job.contract} · ${
+    job.location
+  }</p>
+        </div>
+        <ul class="job-tags">${tagsHTML}</ul>
+      </div>
+    </article>`;
+}
+
+// === Helper: Collect All Tags from Job ===
+function collectTags(job) {
+  return [job.role, job.level, ...(job.languages || []), ...(job.tools || [])];
+}
+
+// === Add Event Listeners to Tags ===
+function attachTagListeners() {
   document.querySelectorAll(".tag-btn").forEach((btn) => {
     btn.addEventListener("click", () => {
       const tag = btn.dataset.tag;
       if (!activeFilters.includes(tag)) {
         activeFilters.push(tag);
-        renderJobCard(jobData);
+        renderJobCards();
       }
     });
   });
 }
 
-function renderFilterBar() {
-  if (activeFilters.length === 0) {
+// === Render Filter Bar ===
+function updateFilterBar() {
+  if (!activeFilters.length) {
     filterBar.style.display = "none";
     return;
   }
@@ -105,11 +102,11 @@ function renderFilterBar() {
 
   filterTagsContainer.innerHTML = activeFilters
     .map(
-      (tag) => `
-        <li class="filter-tag">
-          <p>${tag}</p>
-          <button type="reset" class="remove-tag" data-tag="${tag}" aria-label="Remove ${tag} filter"></button>
-        </li>`
+      (tag) =>
+        `<li class="filter-tag">
+      <p>${tag}</p>
+      <button class="remove-tag" data-tag="${tag}" aria-label="Remove ${tag} filter"></button>
+    </li>`
     )
     .join("");
 
@@ -117,14 +114,16 @@ function renderFilterBar() {
     btn.addEventListener("click", () => {
       const tag = btn.dataset.tag;
       activeFilters = activeFilters.filter((t) => t !== tag);
-      renderJobCard(jobData);
+      renderJobCards();
     });
   });
 }
 
+// === Clear Filter Button ===
 clearFilterBtn.addEventListener("click", () => {
   activeFilters = [];
-  renderJobCard(jobData);
+  renderJobCards();
 });
 
+// Init
 getJobArticle();
